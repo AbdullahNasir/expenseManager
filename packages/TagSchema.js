@@ -17,4 +17,4 @@ var TagSchema = new Schema({
 
 
 
-mongoose.model('Transaction', TransactionSchema);
+mongoose.model('Tag', TagSchema);
