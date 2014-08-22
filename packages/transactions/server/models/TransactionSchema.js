@@ -12,8 +12,9 @@ var mongoose = require('mongoose'),
 
 
 var TransactionSchema = new Schema({
+    user:{type:Object,ref:'User'},
     amount: {type : Number},
-    tags:[{type:Object,ref:'Tag'}],
+    tags:[{type:String}],
     date:{type:Date,default:Date.now},
     description:{type:String},
     type:{type:String}

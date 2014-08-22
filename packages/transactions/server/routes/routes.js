@@ -1,5 +1,8 @@
 'use strict';
 
+var transactionController = require('../controllers/transactionsController');
+
+
 // The Package is past automatically as first parameter
 module.exports = function(Transactions, app, auth, database) {
 
@@ -15,12 +18,11 @@ module.exports = function(Transactions, app, auth, database) {
         res.send('Only users with Admin role can access this');
     });
 
-    app.get('/transactions/example/render', function(req, res, next) {
-        Transactions.render('index', {
-            package: 'transactions'
-        }, function(err, html) {
-            //Rendering a view from the Package server/views
-            res.send(html);
-        });
-    });
+    app.post('transaction/new',auth.requiresLogin,transactionController.Transaction);
+
+    app.post('transaction/update/:transactionId',auth.requiresLogin,transactionController.Update);
+
+    app.get('transactions',auth.requiresLogin,transactionController.transactions);
+
+
 };
