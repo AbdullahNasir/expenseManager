@@ -48,3 +48,15 @@ footer p {
 .ng-valid.ng-dirty {
 	border-color: #78FA89;
 }
+
+.pad-right-5{
+    padding-right: 5px;
+}
+
+.pad-right-10{
+    padding-right: 10px;
+}
+
+.pad-right-15{
+    padding-right: 15px;
+}

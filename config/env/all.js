@@ -6,7 +6,7 @@ var path = require('path'),
 module.exports = {
   root: rootPath,
   http: {
-    port: process.env.PORT || 8080
+    port: process.env.PORT || 3030
   },
   https: {
     port: false,

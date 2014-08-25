@@ -14,5 +14,9 @@ angular.module('mean.transactions').config(['$stateProvider',
             url:'/transactions/income',
             templateUrl:'transactions/views/income.html'
         });
+        $stateProvider.state('transactions.summary',{
+            url:'/transactions/summary',
+            templateUrl:'transactions/views/summary.html'
+        });
     }
 ]);
