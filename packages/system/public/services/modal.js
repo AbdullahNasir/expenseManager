@@ -1,6 +1,7 @@
 /**
  * Created by Abdullah on 8/26/14.
  */
+'use strict';
 
 angular.module('mean.system').factory('modalService', ['$modal', '$log',
     function($modal, $log) {
@@ -17,17 +18,17 @@ angular.module('mean.system').factory('modalService', ['$modal', '$log',
             keyboard: true,
             modalFade: true,
             windowClass: 'ft-modal',
-            templateUrl: '/system/views/partials/modal.html'
+            templateUrl: '/system/views/modal.html'
         };
 
         var modalOptions = {
-            icon: "",
+            icon: '',
             showButtons: false,
             closeButtonText: 'Close',
             actionButtonText: 'OK',
             headerText: 'Proceed?',
             bodyText: 'Perform this action?',
-            templateUrl: ""
+            templateUrl: ''
         };
 
         var show = function (customModalDefaults, customModalOptions, customModalData) {
@@ -59,7 +60,7 @@ angular.module('mean.system').factory('modalService', ['$modal', '$log',
                     $scope.close = function () {
                         $modalInstance.dismiss('cancel');
                     };
-                }
+                };
             }
 
             tempModalDefaults.resolve = {
@@ -87,7 +88,7 @@ angular.module('mean.system').factory('modalService', ['$modal', '$log',
             customModalDefaults.windowClass = 'ft-modal ft-success-modal';
 
             customModalOptions.type = 'success';
-            customModalOptions.icon = icons['success'];
+            customModalOptions.icon = icons.success;
 
             return show(customModalDefaults, customModalOptions);
         };
@@ -105,7 +106,7 @@ angular.module('mean.system').factory('modalService', ['$modal', '$log',
             customModalDefaults.windowClass = 'ft-modal ft-warning-modal';
 
             customModalOptions.type = 'warning';
-            customModalOptions.icon = icons['warning'];
+            customModalOptions.icon = icons.warning;
 
             return show(customModalDefaults, customModalOptions);
         };
@@ -123,7 +124,7 @@ angular.module('mean.system').factory('modalService', ['$modal', '$log',
             customModalDefaults.windowClass = 'ft-modal ft-error-modal';
 
             customModalOptions.type = 'error';
-            customModalOptions.icon = icons['error'];
+            customModalOptions.icon = icons.error;
 
             return show(customModalDefaults, customModalOptions);
         };
@@ -155,7 +156,7 @@ angular.module('mean.system').factory('modalService', ['$modal', '$log',
             customModalOptions.showButtons = true;
 
             return show(customModalDefaults, customModalOptions, customModalData);
-        }
+        };
 
         return modals;
     }
