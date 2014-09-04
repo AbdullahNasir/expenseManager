@@ -18,11 +18,11 @@ module.exports = function(Transactions, app, auth, database) {
         res.send('Only users with Admin role can access this');
     });
 
-    app.post('transaction/new',auth.requiresLogin,transactionController.Transaction);
+    app.post('/transaction/new',auth.requiresLogin,transactionController.Transaction);
 
-    app.post('transaction/update/:transactionId',auth.requiresLogin,transactionController.Update);
+    app.post('/transaction/update/:transactionId',auth.requiresLogin,transactionController.Update);
 
-    app.get('transactions',auth.requiresLogin,transactionController.transactions);
+    app.get('/transactions/:dateFilterType',auth.requiresLogin,transactionController.transactions);
 
 
 };

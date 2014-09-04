@@ -46,12 +46,12 @@ var newTransaction = function(data){
 exports.Transaction = function(req,res){
 
     var data= {};
-    data.user = req.user.id;
+    data.user = req.user;
     data.date = req.body.date;
     data.type = req.body.type; // this could either be 'income' or 'expense'
     data.amount = req.body.amount;
     data.description = req.body.description;
-    data.tags = req.body.tags;
+    data.tags = req.body.tags.split(',');
 
     newTransaction(data).then(function(response){
         res.json(response);
@@ -124,25 +124,51 @@ exports.Update = function(req,res){
 };
 
 //Get transactions
-var getTransactions = function(params){
+var getTransactions = function(user,dateFilter){
 
     var deferred = Q.defer();
 
-    Transactions.find({}).exec(function(err,transactions){
+    Transactions.aggregate([{$group:{_id:'$date'}}]);/*{user:user.id,date:dateFilter}).exec(function(err,transactions){
             if(!err){
                 deferred.resolve(transactions);
             }else{
                 console.log(err);
                 deferred.reject({err:'some error occurred'});
             }
-    });
+    });*/
 
     return deferred.promise;
 };
 
+function getDateFilter(month,startDate,endDate){
+
+    if(month){
+         startDate = new Date();
+         endDate = new Date();
+
+        startDate.setMonth(month);
+        startDate.setDate(1);
+        endDate.setMonth(month);
+        endDate.setDate(31);
+    }
+
+    var filter = {$gte:startDate,$lte:endDate};
+
+    return filter;
+}
+
+
 exports.transactions = function(req,res){
 
-        getTransactions({}).then(function(response){
+    var dateFilter;
+
+        if(req.params.dateFilterType === 'monthly'){
+            dateFilter = getDateFilter(req.query.month);
+        }else{
+            dateFilter= getDateFilter(req.query.startDate,req.query.endDate);
+        }
+
+        getTransactions(req.user,dateFilter).then(function(response){
             res.json(response);
         }).fail(function(err){
                 res.json(err);
