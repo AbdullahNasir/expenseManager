@@ -9,26 +9,26 @@ var mongoose = require('mongoose'),
 
 
 /*new transaction
-    Input Params,
-         {
-         amount: {type : Number},
-         tags:[{type:Object,ref:'Tag'}],
-         date:{type:Date,default:Date.now},
-         description:{type:String},
-         type:{type:String}
+ Input Params,
+ {
+ amount: {type : Number},
+ tags:[{type:Object,ref:'Tag'}],
+ date:{type:Date,default:Date.now},
+ description:{type:String},
+ type:{type:String}
 
-         }
+ }
  */
 var newTransaction = function(data){
     var deferred = Q.defer();
-     var transaction = new Transactions();
+    var transaction = new Transactions();
 
     transaction.user = data.user;
-     transaction.date = data.date;
-     transaction.type = data.type;
-     transaction.amount = data.amount;
-     transaction.description = data.description;
-     transaction.tags = data.tags;
+    transaction.date = data.date;
+    transaction.type = data.type;
+    transaction.amount = data.amount;
+    transaction.description = data.description;
+    transaction.tags = data.tags;
 
     transaction.save(function(err){
         if(!err){
@@ -62,7 +62,7 @@ exports.Transaction = function(req,res){
 
 
 /*edit transaction
-*  Input Params,
+ *  Input Params,
  {
  user:logged in user,
  transactionId:{id of the object}
@@ -73,7 +73,7 @@ exports.Transaction = function(req,res){
  type:{type:String}
 
  }
-* */
+ * */
 var editTransaction = function(data){
     var deferred = Q.defer();
 
@@ -119,8 +119,8 @@ exports.Update = function(req,res){
     editTransaction(data).then(function(response){
         res.json(response);
     }).fail(function(err){
-            res.json(err);
-        });
+        res.json(err);
+    });
 };
 
 //Get transactions
@@ -128,14 +128,29 @@ var getTransactions = function(user,dateFilter){
 
     var deferred = Q.defer();
 
-    Transactions.aggregate([{$group:{_id:'$date'}}]);/*{user:user.id,date:dateFilter}).exec(function(err,transactions){
-            if(!err){
-                deferred.resolve(transactions);
-            }else{
-                console.log(err);
-                deferred.reject({err:'some error occurred'});
-            }
-    });*/
+    var rules = {user:user.id,date:dateFilter};
+
+    var agg = [
+        {$group:{_id:'$date',transactions:{$push:'$amount'}}}
+    ];
+
+    Transactions.aggregate(agg,function(err,transactions){
+        if(!err){
+            deferred.resolve(transactions);
+        }else{
+            console.log(err);
+            deferred.reject({err:'some error occurred'});
+        }
+    });
+
+    /*Transactions.find({user:user.id,date:dateFilter}).exec(function(err,transactions){
+     if(!err){
+     deferred.resolve(transactions);
+     }else{
+     console.log(err);
+     deferred.reject({err:'some error occurred'});
+     }
+     });*/
 
     return deferred.promise;
 };
@@ -143,8 +158,8 @@ var getTransactions = function(user,dateFilter){
 function getDateFilter(month,startDate,endDate){
 
     if(month){
-         startDate = new Date();
-         endDate = new Date();
+        startDate = new Date();
+        endDate = new Date();
 
         startDate.setMonth(month);
         startDate.setDate(1);
@@ -162,16 +177,16 @@ exports.transactions = function(req,res){
 
     var dateFilter;
 
-        if(req.params.dateFilterType === 'monthly'){
-            dateFilter = getDateFilter(req.query.month);
-        }else{
-            dateFilter= getDateFilter(req.query.startDate,req.query.endDate);
-        }
+    if(req.params.dateFilterType === 'monthly'){
+        dateFilter = getDateFilter(req.query.month);
+    }else{
+        dateFilter= getDateFilter(req.query.startDate,req.query.endDate);
+    }
 
-        getTransactions(req.user,dateFilter).then(function(response){
-            res.json(response);
-        }).fail(function(err){
-                res.json(err);
-            });
+    getTransactions(req.user,dateFilter).then(function(response){
+        res.json(response);
+    }).fail(function(err){
+        res.json(err);
+    });
 };
 
