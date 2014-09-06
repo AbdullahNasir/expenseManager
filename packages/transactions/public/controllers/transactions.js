@@ -30,8 +30,8 @@ angular.module('mean.transactions').controller('TransactionsController', ['$root
         $scope.init = function(){
             transactionsService.monthlyTransactions(new Date().getMonth()).then(function(data){
 
-            })
-        }
+            });
+        };
 
         $scope.newTransaction = function(){
             var modalOptions = {

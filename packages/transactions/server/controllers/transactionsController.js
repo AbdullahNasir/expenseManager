@@ -128,10 +128,13 @@ var getTransactions = function(user,dateFilter){
 
     var deferred = Q.defer();
 
-    var rules = {user:user.id,date:dateFilter};
+    var rules = {user:user._id,date:dateFilter};
 
     var agg = [
-        {$group:{_id:'$date',transactions:{$push:'$amount'}}}
+        {$match:rules},
+        {$group:{_id:'$date',transactions:{$push:'$$ROOT'},totalAmount:{$sum:'$amount'}}},
+        {$project:{date:'$_id',totalAmount:1,transactions:1,_id:0}}
+
     ];
 
     Transactions.aggregate(agg,function(err,transactions){
@@ -143,7 +146,7 @@ var getTransactions = function(user,dateFilter){
         }
     });
 
-    /*Transactions.find({user:user.id,date:dateFilter}).exec(function(err,transactions){
+   /* Transactions.find({user:user.id,date:dateFilter}).exec(function(err,transactions){
      if(!err){
      deferred.resolve(transactions);
      }else{
