@@ -27,9 +27,9 @@ angular.module('mean.transactions').controller('TransactionsController', ['$root
 
         $scope.transactions= {};
 
-        $scope.init = function(){
-            transactionsService.monthlyTransactions(new Date().getMonth()).then(function(data){
-
+        $scope.initExpense = function(){
+            transactionsService.monthlyTransactions(new Date().getMonth(),'expense').then(function(data){
+                  console.log(data);
             });
         };
 

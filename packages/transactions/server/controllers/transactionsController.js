@@ -124,11 +124,11 @@ exports.Update = function(req,res){
 };
 
 //Get transactions
-var getTransactions = function(user,dateFilter){
+var getTransactions = function(user,dateFilter,type){
 
     var deferred = Q.defer();
 
-    var rules = {user:user._id,date:dateFilter};
+    var rules = {user:user._id,date:dateFilter,type:type};
 
     var agg = [
         {$match:rules},
@@ -186,7 +186,7 @@ exports.transactions = function(req,res){
         dateFilter= getDateFilter(req.query.startDate,req.query.endDate);
     }
 
-    getTransactions(req.user,dateFilter).then(function(response){
+    getTransactions(req.user,dateFilter,req.params.type).then(function(response){
         res.json(response);
     }).fail(function(err){
         res.json(err);

@@ -22,7 +22,7 @@ module.exports = function(Transactions, app, auth, database) {
 
     app.post('/transaction/update/:transactionId',auth.requiresLogin,transactionController.Update);
 
-    app.get('/transactions/:dateFilterType',auth.requiresLogin,transactionController.transactions);
+    app.get('/transactions/:type/:dateFilterType',auth.requiresLogin,transactionController.transactions);
 
 
 };
