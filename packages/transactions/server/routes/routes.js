@@ -22,7 +22,6 @@ module.exports = function(Transactions, app, auth, database) {
 
     app.post('/transaction/update/:transactionId',auth.requiresLogin,transactionController.Update);
 
-    app.get('/transactions/:type/:dateFilterType',auth.requiresLogin,transactionController.transactions);
-
+    app.get('/transaction/:type/:dateFilterType',auth.requiresLogin,transactionController.transactions);
 
 };
