@@ -7,15 +7,15 @@ angular.module('mean.transactions').config(['$stateProvider',
             templateUrl: 'transactions/views/index.html'
         });
         $stateProvider.state('transactions.expense',{
-            url:'/transactions/expense',
+            url:'/expense',
             templateUrl:'transactions/views/expense.html'
         });
         $stateProvider.state('transactions.income',{
-            url:'/transactions/income',
+            url:'/income',
             templateUrl:'transactions/views/income.html'
         });
         $stateProvider.state('transactions.summary',{
-            url:'/transactions/summary',
+            url:'/summary',
             templateUrl:'transactions/views/summary.html'
         });
     }

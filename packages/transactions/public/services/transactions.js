@@ -15,7 +15,7 @@ angular.module('mean.transactions').factory('transactionsService', ['$http',
 
 
         function getMonthlyTransactions(month,type){
-            return $http.get('/transactions/'+type+'/monthly?month='+month);
+            return $http.get('/transaction/'+type+'/monthly?month='+month);
         }
 
         return {

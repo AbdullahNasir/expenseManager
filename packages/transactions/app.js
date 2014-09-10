@@ -24,6 +24,11 @@ Transactions.register(function(app, auth, database) {
         menu: 'main'
     });
 
+    Transactions.angularDependencies([
+        // Angular modules
+       'angularMoment'
+    ]);
+
     /**
     //Uncomment to use. Requires meanio@0.3.7 or above
     // Save settings with callback
