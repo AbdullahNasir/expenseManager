@@ -5,11 +5,11 @@
             <div class="text-center heading">
                 <span>Timespan</span>
             </div>
-            <div class="text-center subheading">
-                <span style="visibility: collapse">August 2014</span>
-            </div>
-            <div class="text-center currency">
-                <span>August 2014</span>
+
+            <div class="text-center currency" style="padding-top: 14px">
+                <span class="nav-red mar-right-10" data-ng-click="prevMonth()"><</span>
+                <span>{{months[choosenMonth]}}</span>
+                <span class="nav-red mar-left-10" data-ng-click="nextMonth()">></span>
             </div>
         </div>
     </div>

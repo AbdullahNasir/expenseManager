@@ -133,7 +133,8 @@ var getTransactions = function(user,dateFilter,type){
     var agg = [
         {$match:rules},
         {$group:{_id:'$date',transactions:{$push:'$$ROOT'},totalAmount:{$sum:'$amount'}}},
-        {$project:{date:'$_id',totalAmount:1,transactions:1,_id:0}}
+        {$project:{date:'$_id',totalAmount:1,transactions:1}},
+        { $sort : { date: -1 } }
 
     ];
 

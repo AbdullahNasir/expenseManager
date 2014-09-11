@@ -29,6 +29,8 @@ Transactions.register(function(app, auth, database) {
        'angularMoment'
     ]);
 
+    Transactions.aggregateAsset('css', 'transactions.css');
+
     /**
     //Uncomment to use. Requires meanio@0.3.7 or above
     // Save settings with callback

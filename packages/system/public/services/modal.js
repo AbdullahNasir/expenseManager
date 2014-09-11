@@ -66,8 +66,9 @@ angular.module('mean.system').factory('modalService', ['$modal', '$log',
             tempModalDefaults.resolve = {
                 Params: function() {
                     return {
-                        modalOptions: tempModalOptions,
-                        modalData: customModalData
+                        modalData: customModalData,
+                        modalOptions: tempModalOptions
+
                     };
                 }
             };

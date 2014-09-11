@@ -2,13 +2,12 @@
 
 var TransactionController = function ($scope, $rootScope, $modalInstance, Params) {
     $scope.modalOptions = Params.modalOptions;
+    $scope.modalData = Params.modalData;
 
-
-    $scope.transaction = {};
     // return with success
     $scope.ok = function () {
-        console.log($scope.transaction);
-        $modalInstance.close($scope.transaction);
+        console.log($scope.modalData.transaction);
+        $modalInstance.close($scope.modalData.transaction);
     };
 
     // return as cancel
@@ -25,14 +24,33 @@ angular.module('mean.transactions').controller('TransactionsController', ['$root
             name: 'transactions'
         };
 
+        $scope.months = ['January','Feburary','March','April','May','June','July','August',
+                     'September','October','November','December']
+        $scope.choosenMonth = new Date().getMonth();
+
+
         $scope.transactions= {};
 
         $scope.initExpense = function(){
-            transactionsService.monthlyTransactions(new Date().getMonth(),'expense').then(function(response){
+            transactionsService.monthlyTransactions($scope.choosenMonth,'expense').then(function(response){
                   console.log(response.data);
                   $scope.transactions = response.data;
             });
         };
+
+        $scope.nextMonth = function(){
+            if($scope.choosenMonth == 11)
+                return;
+            $scope.choosenMonth++;
+            $scope.initExpense();
+        }
+
+        $scope.prevMonth = function(){
+            if($scope.choosenMonth == 0)
+                return;
+            $scope.choosenMonth--;
+            $scope.initExpense();
+        }
 
         $scope.newTransaction = function(){
             var modalOptions = {
@@ -57,7 +75,7 @@ angular.module('mean.transactions').controller('TransactionsController', ['$root
                             });
 
                             // triggers an event of "transaction.save"
-                            $rootScope.$broadcast('transaction.save');
+                            $scope.initExpense();
                         }).error(function(response){
                             console.log(response);
                         });
@@ -68,6 +86,28 @@ angular.module('mean.transactions').controller('TransactionsController', ['$root
 
             });
         };
+
+        $scope.editTransaction = function(transaction){
+
+            console.log(transaction);
+
+            transaction = {transaction:transaction};
+
+
+            var modalOptions = {
+                closeButtonText: 'Cancel',
+                actionButtonText: 'Update',
+                headerText: 'Update',
+                templateUrl: 'transactions/views/transaction.html'
+            };
+
+            modalService.dialog(modalOptions,transaction,TransactionController).then(function(transaction){
+
+            },function(){
+
+            })
+        }
+
     }
 
 
