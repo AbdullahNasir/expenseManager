@@ -4,16 +4,24 @@ var TransactionController = function ($scope, $rootScope, $modalInstance, Params
     $scope.modalOptions = Params.modalOptions;
     $scope.modalData = Params.modalData;
 
+    if(!$scope.modalData.transaction){
+        $scope.transaction = {};
+    }else{
+        $scope.transaction = $scope.modalData.transaction;
+        $scope.transaction.date = $scope.transaction.date.substr(0,10);
+    }
+
     // return with success
     $scope.ok = function () {
-        console.log($scope.modalData.transaction);
-        $modalInstance.close($scope.modalData.transaction);
+        console.log($scope.transaction);
+        $modalInstance.close($scope.transaction);
     };
 
     // return as cancel
     $scope.close = function () {
         $modalInstance.dismiss('cancel');
     };
+
 
 };
 
@@ -25,7 +33,7 @@ angular.module('mean.transactions').controller('TransactionsController', ['$root
         };
 
         $scope.months = ['January','Feburary','March','April','May','June','July','August',
-                     'September','October','November','December']
+                     'September','October','November','December'];
         $scope.choosenMonth = new Date().getMonth();
 
 
@@ -39,18 +47,18 @@ angular.module('mean.transactions').controller('TransactionsController', ['$root
         };
 
         $scope.nextMonth = function(){
-            if($scope.choosenMonth == 11)
+            if($scope.choosenMonth === 11)
                 return;
-            $scope.choosenMonth++;
+            $scope.choosenMonth+=1;
             $scope.initExpense();
-        }
+        };
 
         $scope.prevMonth = function(){
-            if($scope.choosenMonth == 0)
+            if($scope.choosenMonth === 0)
                 return;
-            $scope.choosenMonth--;
+            $scope.choosenMonth-=1;
             $scope.initExpense();
-        }
+        };
 
         $scope.newTransaction = function(){
             var modalOptions = {
@@ -101,12 +109,19 @@ angular.module('mean.transactions').controller('TransactionsController', ['$root
                 templateUrl: 'transactions/views/transaction.html'
             };
 
-            modalService.dialog(modalOptions,transaction,TransactionController).then(function(transaction){
-
+            modalService.dialog(modalOptions,JSON.parse(JSON.stringify(transaction)),TransactionController).then(function(transaction){
+                console.log('out of modal');
+                console.log(transaction);
+                transactionsService.updateTransaction(transaction._id,transaction.date,'expense',transaction.amount,transaction.description,transaction.tags)
+                    .then(function(response){
+                        console.log(response.data);
+                    }).error(function(response){
+                        console.log(response.data);
+                    })
             },function(){
 
-            })
-        }
+            });
+        };
 
     }
 

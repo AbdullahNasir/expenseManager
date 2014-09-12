@@ -5,15 +5,15 @@
 
 .btn-trans-active {
     background-color: #D1D1D1;
-    border-radius: 0px;
+    border-radius: 0;
     border: 1px solid #D0D0D0;
-    margin: 0px;
+    margin: 0;
 }
 .transaction-card {
     background-color: white;
-    border-radius: 0px;
+    border-radius: 0;
     border: 1px solid #D0D0D0;
-    margin: 0px;
+    margin: 0;
 }
 
 
@@ -89,6 +89,7 @@
 .date-group{
     padding-top: 10px;
     padding-bottom: 10px;
+    background-color: rgb(113, 62, 33);
     background-color: rgba(113, 62, 33, 0.06);
     border-radius: 4px;
     margin-bottom: 15px;
@@ -109,6 +110,7 @@
 }
 
 .transaction:hover{
+    background-color: rgb(172, 172, 172);
     background-color: rgba(172, 172, 172, 0.37);
     border-radius: 4px;
     cursor: pointer;
